@@ -106,7 +106,6 @@ o:value("https://v.id9.cc/sub", translate("v.id9.cc")..translate("(Support Vless
 o:value("https://sub.id9.cc/sub", translate("sub.id9.cc"))
 o:value("https://api.wcc.best/sub", translate("api.wcc.best"))
 o.default = "https://api.dler.io/sub"
-o.placeholder = "https://api.dler.io/sub"
 
 ---- Template
 o = s:option(ListValue, "template", translate("Template Name"))
@@ -175,12 +174,6 @@ o.rmempty     = false
 o:value("false", translate("Disable"))
 o:value("true", translate("Enable"))
 o.default = "false"
-o:depends("sub_convert", "1")
-
----- custom params
-o = s:option(DynamicList, "custom_params", translate("Custom Params"))
-o.description = font_red..bold_on..translate("eg: \"rename=\\s+([2-9])[xX]@ (HIGH:$1)\"")..bold_off..font_off
-o.rmempty     = false
 o:depends("sub_convert", "1")
 
 ---- key

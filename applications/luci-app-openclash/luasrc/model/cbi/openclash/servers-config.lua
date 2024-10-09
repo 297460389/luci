@@ -81,10 +81,6 @@ local hysteria_protocols = {
 	"faketcp"
 }
 
-local hysteria2_protocols = {
-	"udp"
-}
-
 local obfs = {
 	"plain",
 	"http_simple",
@@ -140,7 +136,7 @@ o:value("trojan", translate("trojan"))
 o:value("vless", translate("Vless ")..translate("(Only Meta Core)"))
 o:value("hysteria", translate("Hysteria ")..translate("(Only Meta Core)"))
 o:value("hysteria2", translate("Hysteria2 ")..translate("(Only Meta Core)"))
-o:value("wireguard", translate("WireGuard")..translate("(Only Meta Core)"))
+o:value("wireguard", translate("WireGuard")..translate("(TUN&Meta Core)"))
 o:value("tuic", translate("Tuic")..translate("(Only Meta Core)"))
 o:value("snell", translate("Snell"))
 o:value("socks5", translate("Socks5"))
@@ -161,19 +157,12 @@ o.datatype = "port"
 o.rmempty = false
 o.default = "443"
 
-o = s:option(Flag, "flag_port_hopping", translate("Enable Port Hopping"))
-o:depends("type", "hysteria")
-o:depends("type", "hysteria2")
-o.rmempty = true
-o.default = "0"
-
-o = s:option(Value, "ports", translate("Port Range"))
+o = s:option(Value, "ports", translate("Port Hopping"))
 o.datatype = "portrange"
 o.rmempty = true
 o.default = "20000-40000"
 o.placeholder = translate("20000-40000")
-o:depends({type = "hysteria", flag_port_hopping = true})
-o:depends({type = "hysteria2", flag_port_hopping = true})
+o:depends("type", "hysteria")
 
 o = s:option(Value, "password", translate("Password"))
 o.password = true
@@ -289,29 +278,18 @@ o.default = "1420"
 o.placeholder = translate("1420")
 o:depends("type", "wireguard")
 
-o = s:option(Flag, "flag_transport", translate("Enable Transport Protocol Settings"))
-o:depends("type", "hysteria")
-o:depends("type", "hysteria2")
-o.rmempty = true
-o.default = "0"
-
 o = s:option(ListValue, "hysteria_protocol", translate("Protocol"))
 for _, v in ipairs(hysteria_protocols) do o:value(v) end
-o.rmempty = true
-o:depends({type = "hysteria", flag_transport = true})
+o.rmempty = false
+o:depends("type", "hysteria")
 
-o = s:option(ListValue, "hysteria2_protocol", translate("Protocol"))
-for _, v in ipairs(hysteria2_protocols) do o:value(v) end
-o.rmempty = true
-o:depends({type = "hysteria2", flag_transport = true})
-
-o = s:option(Value, "hysteria_up", translate("Uplink Capacity(Default:Mbps)"))
+o = s:option(Value, "hysteria_up", translate("up"))
 o.rmempty = false
 o.description = translate("Required")
 o:depends("type", "hysteria")
 o:depends("type", "hysteria2")
 
-o = s:option(Value, "hysteria_down", translate("Downlink Capacity(Default:Mbps)"))
+o = s:option(Value, "hysteria_down", translate("down"))
 o.rmempty = false
 o.description = translate("Required")
 o:depends("type", "hysteria")
@@ -704,30 +682,18 @@ o:depends("type", "hysteria")
 o:depends("type", "hysteria2")
 
 -- [[ recv_window_conn ]]--
-o = s:option(Flag, "flag_quicparam", translate("Hysterir QUIC parameters"))
-o:depends("type", "hysteria")
-o.rmempty = true
-o.default = "0"
-
 o = s:option(Value, "recv_window_conn", translate("recv_window_conn"))
 o.rmempty = true
 o.placeholder = translate("QUIC stream receive window")
 o.datatype = "uinteger"
-o:depends({type = "hysteria", flag_quicparam = true})
+o:depends("type", "hysteria")
 
 -- [[ recv_window ]]--
 o = s:option(Value, "recv_window", translate("recv_window"))
 o.rmempty = true
 o.placeholder = translate("QUIC connection receive window")
 o.datatype = "uinteger"
-o:depends({type = "hysteria", flag_quicparam = true})
-
--- [[ hop_interval ]]--
-o = s:option(Value, "hop_interval", translate("Hop Interval (Unit:second)"))
-o.rmempty = true
-o.default = "10"
-o:depends({type = "hysteria", flag_transport = true, flag_port_hopping = true})
-o:depends({type = "hysteria2", flag_port_hopping = true})
+o:depends("type", "hysteria")
 
 -- [[ disable_mtu_discovery ]]--
 o = s:option(ListValue, "disable_mtu_discovery", translate("disable_mtu_discovery"))
@@ -735,7 +701,13 @@ o.rmempty = true
 o:value("true")
 o:value("false")
 o.default = "false"
-o:depends({type = "hysteria", flag_quicparam = true})
+o:depends("type", "hysteria")
+
+-- [[ hop_interval ]]--
+o = s:option(Value, "hop_interval", translate("Hop Interval"))
+o.rmempty = true
+o.default = "10"
+o:depends("type", "hysteria")
 
 o = s:option(ListValue, "packet-addr", translate("Packet-Addr")..translate("(Only Meta Core)"))
 o.rmempty = true
