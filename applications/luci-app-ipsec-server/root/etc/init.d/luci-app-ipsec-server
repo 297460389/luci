@@ -254,7 +254,7 @@ gen_iface_and_firewall() {
 		set network.ipsec_server.ifname="ipsec0"
 		set network.ipsec_server.device="ipsec0"
 		set network.ipsec_server.proto="static"
-		set network.ipsec_server.ipaddr="${vt_clientip%.*}.1"
+		set network.ipsec_server.ipaddr="${vt_clientip%.*}.96"
 		set network.ipsec_server.netmask="255.255.255.0"
 		commit network
 		

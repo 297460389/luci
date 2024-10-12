@@ -19,8 +19,8 @@ msgstr "启用"
 msgid "VPN Client IP"
 msgstr "VPN客户端地址段"
 
-msgid "VPN Client reserved started IP addresses with the same subnet mask, such as: 192.168.100.10/24"
-msgstr "VPN客户端获取IP的起始地址，例如：192.168.100.10/24"
+msgid "VPN Client reserved started IP addresses with the same subnet mask, such as: 192.168.30.10/24"
+msgstr "VPN客户端获取IP的起始地址，例如：192.168.30.10/24"
 
 msgid "Secret Pre-Shared Key"
 msgstr "PSK密钥"
